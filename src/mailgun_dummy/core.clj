@@ -29,8 +29,8 @@
            (string? html))))
 
 (defn send-email [message]
-  (let [message (assoc (walk/keywordize-keys message)
-                       :id (generate-id message))]
+  (let [message (walk/keywordize-keys message)
+        message (assoc message :id (generate-id message))]
     (if (valid-message? message)
       (do
         (println "Received message" (pr-str (dissoc message :id)))

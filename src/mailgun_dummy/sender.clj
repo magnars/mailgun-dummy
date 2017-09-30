@@ -18,11 +18,13 @@
 
 (defn fire-away-delivery-confirmation [message]
   (let [ms (inc (rand-int 10000))]
-    (println "Sending delivery report for" (:id message) "in" ms "ms")
+    (print "Sending delivery report for" (:id message) "in" ms "ms ...")
+    (flush)
     (go
       (<! (timeout ms))
       (http/post "http://localhost:3000/mailgun-callback"
-                 (create-confirmation-response message)))))
+                 (create-confirmation-response message))
+      (println " done!"))))
 
 (defn create-sender []
   (let [c (chan)]
